@@ -1,2 +1,2 @@
-variables.env.sample
 /node_modules/
+/variables.env
