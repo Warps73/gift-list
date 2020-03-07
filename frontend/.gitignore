@@ -1,2 +1,3 @@
 variables.env.sample
 /node_modules/
+/.next/
