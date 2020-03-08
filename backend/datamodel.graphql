@@ -1,6 +1,5 @@
 type User {
     id: ID! @id
     name: String!
-    firstName : String
     email: String! @unique
 }
