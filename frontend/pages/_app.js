@@ -1,13 +1,22 @@
-import React, {Fragment} from 'react'
+import React from 'react';
+import App, {Container} from 'next/app';
 import Page from "../components/Page";
+import {ApolloProvider} from 'react-apollo';
+import withData from "../lib/withData";
 
-function MyApp({Component}) {
-    return (
-        <Fragment>
-            <Page/>
-            <Component/>
-        </Fragment>
-    )
+class MyApp extends App {
+    render() {
+        let {Component, apollo} = this.props;
+        return (
+            <Container>
+                <ApolloProvider client={apollo}>
+                    <Page>
+                        <Component/>
+                    </Page>
+                </ApolloProvider>
+            </Container>
+        )
+    }
 }
 
 // Only uncomment this method if you have blocking data requirements for
@@ -22,5 +31,5 @@ function MyApp({Component}) {
 //   return { ...appProps }
 // }
 
-export default MyApp
+export default withData(MyApp)
 
