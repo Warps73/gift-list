@@ -1,14 +1,12 @@
 // let's go!
 require('dotenv').config({path: 'variables.env'});
 const createServer = require('./createServer');
-
-// import db from './db';
+const db = require('./db');
 
 const server = createServer();
 
 // Todo use express middleware to handle cookies (JWT)
 // Todo use express middleware to populate current user
-
 server.start({
     cors: {
         credentials: true,

@@ -1,11 +1,3 @@
-import React from 'react';
+import Home from './index';
 
-function Items() {
-    return (
-        <div>
-            Yo ma gueule
-        </div>
-    );
-}
-
-export default Items;
+export default Home;
