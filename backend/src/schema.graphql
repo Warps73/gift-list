@@ -5,6 +5,7 @@ type Mutation {
         title : String,
         description : String,
         price : Int,
+        image : String
         largeImage : String
     ) : Item!
 

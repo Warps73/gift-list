@@ -1,4 +1,4 @@
-import styled, { keyframes } from 'styled-components';
+import styled, {keyframes} from 'styled-components';
 
 const loading = keyframes`
   from {
@@ -57,7 +57,7 @@ const Form = styled.form`
       height: 10px;
       content: '';
       display: block;
-      background-image: linear-gradient(to right, #ff3019 0%, #e2b04a 50%, #ff3019 100%);
+      background-image: linear-gradient(to right, #ba00ff 0%, #e7a8fe 50%, #ba00ff 100%);
     }
     &[aria-busy='true']::before {
       background-size: 50% auto;
