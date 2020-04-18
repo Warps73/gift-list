@@ -45,6 +45,7 @@ const StyledHeader = styled.header`
     @media (max-width: 1300px) {
       grid-template-columns: 1fr;
       justify-content: center;
+      padding: 0 5px 0 0;
     }
   }
   .sub-bar {
