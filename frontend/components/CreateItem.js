@@ -3,7 +3,6 @@ import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
 import Router from 'next/router';
 import Form from './styles/Form';
-import {cloudinaryEndpoint} from '../config';
 import formatMoney from '../lib/formatMoney';
 import Error from './ErrorMessage';
 import {useForm} from 'react-hook-form'
@@ -30,13 +29,13 @@ const CREATE_ITEM_MUTATION = gql`
 
 class CreateItem extends Component {
     state = {
-        title: null,
-        description: null,
-        image: null,
-        largeImage: null,
-        price: null,
-        imgPreview: null,
-        files: null,
+        title: undefined,
+        description: undefined,
+        image: undefined,
+        largeImage: undefined,
+        price: undefined,
+        imgPreview: undefined,
+        files: undefined,
         loading: false,
     };
     handleChange = e => {
@@ -53,8 +52,8 @@ class CreateItem extends Component {
             });
         } else {
             this.setState({
-                imgPreview: null,
-                files: null
+                imgPreview: undefined,
+                files: undefined
             });
         }
     };
