@@ -24,6 +24,11 @@ const Form = styled.form`
     display: block;
     margin-bottom: 1rem;
   }
+  textarea{
+    min-width: 100%;
+    min-height: 50px;
+    max-width: 100vh;
+  }
   input,
   textarea,
   select {
@@ -49,7 +54,9 @@ const Form = styled.form`
   fieldset {
     border: 0;
     padding: 0;
-
+    span{
+        color:red;
+    }
     &[disabled] {
       opacity: 0.5;
     }
