@@ -44,7 +44,7 @@ const Form = styled.form`
   button,
   input[type='submit'] {
     width: auto;
-    background: red;
+    background: #ba00ff;
     color: white;
     border: 0;
     font-size: 2rem;
@@ -55,7 +55,11 @@ const Form = styled.form`
     border: 0;
     padding: 0;
     span{
-        color:red;
+        color:#bf1650;
+        &::before {
+        display: inline;
+        content: "⚠ ";
+        }
     }
     &[disabled] {
       opacity: 0.5;

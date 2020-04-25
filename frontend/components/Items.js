@@ -10,7 +10,7 @@ const ALL_ITEMS_QUERY = gql`
             id
             title
             price
-            description
+            reference
             image
             largeImage
         }

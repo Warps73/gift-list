@@ -9,7 +9,7 @@ scalar DateTime
 type Item{
     id: ID! @id
     title: String!
-    description :String
+    reference :String
     image : String
     largeImage :String
     price : Float

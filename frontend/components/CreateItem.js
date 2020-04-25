@@ -10,14 +10,14 @@ import {useForm} from 'react-hook-form'
 const CREATE_ITEM_MUTATION = gql`
     mutation CREATE_ITEM_MUTATION(
         $title: String!
-        $description: String!
+        $reference: String!
         $price: Int!
         $image: String
         $largeImage: String
     ) {
         createItem(
             title: $title
-            description: $description
+            reference: $reference
             price: $price
             image: $image
             largeImage: $largeImage
@@ -61,22 +61,24 @@ const CreateItem = () => {
 
     return (
         <Mutation mutation={CREATE_ITEM_MUTATION} variables={state}>
-            {(createItem, {error, loading}) => (
+            {(createItem, {error}) => (
                 <Form
-                    onSubmit={handleSubmit(async ({title, description, price, ...data}) => {
+                    onSubmit={handleSubmit(async ({title, reference, price, ...data}) => {
 
-                        // setLoading(true);
+                        setLoading(true);
                         const file = await uploadFile(files);
                         setState({
                                 title: title,
-                                description: description,
+                                reference: reference,
                                 price: parseInt(price),
                                 image: file.secure_url,
                                 largeImage: file.eager[0].secure_url,
                             }
                         );
                         const res = await createItem();
-
+                        if (error) {
+                            setLoading(false);
+                        }
                         // todo change them to the single item page
                         Router.push({
                             pathname: '/item',
@@ -97,7 +99,7 @@ const CreateItem = () => {
                                 onChange={handleChangeFile}
                                 ref={register({required: true})}
                             />
-                            {errors.title && <span>This field is required</span>}
+                            {errors.title && <span>Il faut une image...</span>}
                         </label>
                         {imgPreview &&
                         <img style={{maxHeight: "200px", width: "auto"}} src={imgPreview} alt="img"/>}
@@ -110,7 +112,7 @@ const CreateItem = () => {
                                 placeholder="Title"
                                 ref={register({required: true})}
                             />
-                            {errors.title && <span>This field is required</span>}
+                            {errors.title && <span>OH! Et le nom du cadeau</span>}
                         </label>
 
                         <label htmlFor="price">
@@ -120,23 +122,30 @@ const CreateItem = () => {
                                 id="price"
                                 name="price"
                                 placeholder="Price"
-                                ref={register({required: true})}
+                                ref={register({
+                                    required: true,
+                                    pattern: /[0-9]/
+                                })}
                             />
-                            {errors.price && <span>This field is required</span>}
+                            {errors.price?.type === "required" &&
+                            <span>C'est gratuit?</span>}
+                            {errors.price?.type === "pattern" &&
+                            <span>C'est un prix ça?</span>}
 
                         </label>
 
-                        <label htmlFor="description">
-                            Description
-                            <textarea
-                                id="description"
-                                name="description"
-                                placeholder="Enter A Description"
+                        <label htmlFor="reference">
+                            Reference
+                            <input
+                                type="text"
+                                id="reference"
+                                name="reference"
+                                placeholder="Reference du produit"
                                 ref={register({required: true})}
                             />
-                            {errors.description && <span>This field is required</span>}
+                            {errors.reference && <span>Si tu veux l'avoir, donne la référence...!</span>}
                         </label>
-                        <button type="submit">Submit</button>
+                        <button type="submit">Enregistrer</button>
                     </fieldset>
                 </Form>
             )}
