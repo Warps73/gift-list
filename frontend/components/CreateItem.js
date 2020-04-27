@@ -80,7 +80,7 @@ const CreateItem = () => {
                             setLoading(false);
                         }
                         // todo change them to the single item page
-                        Router.push({
+                        await Router.push({
                             pathname: '/item',
                             query: {id: res.data.createItem.id},
                         });
