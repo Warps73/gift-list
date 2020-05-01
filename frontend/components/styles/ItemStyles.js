@@ -11,6 +11,7 @@ const Item = styled.div`
     width: 100%;
     height: 400px;
     object-fit: cover;
+    cursor: pointer;
   }
   p {
     line-height: 2;
