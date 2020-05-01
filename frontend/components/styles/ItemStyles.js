@@ -7,8 +7,10 @@ const Item = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
+  width : 400px;
+  max-width : 400px;
   img {
-    width: 100%;
+    width: auto;
     height: 200px;
     object-fit: cover;
     cursor: pointer;

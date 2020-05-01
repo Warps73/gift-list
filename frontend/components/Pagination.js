@@ -33,15 +33,14 @@ const Pagination = props => {
             <Head>
                 <title>Wish List ~ Page {props.page} of {pages}</title>
             </Head>
-            <Link prefetch href={{
+            <Link href={{
                 pathname: '/items',
                 query: {page: props.page - 1}
             }}>
                 <a className="prev" aria-disabled={props.page <= 1}>Prev</a>
             </Link>
-            <p>Page {props.page} / {pages}</p>
-            <p>{count} Items total</p>
-            <Link prefetch href={{
+            <p>{props.page} / {pages}</p>
+            <Link href={{
                 pathname: '/items',
                 query: {page: props.page + 1}
             }}>
