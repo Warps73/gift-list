@@ -8,10 +8,10 @@ import Head from 'next/head';
 const SingleItemStyles = styled.div`
   max-width: 1200px;
   margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   box-shadow: ${props => props.theme.bs};
-  display: grid;
-  grid-auto-columns: 1fr;
-  grid-auto-flow: column;
   min-height: 800px;
   img {
     width: 500px;
@@ -53,10 +53,12 @@ function SingleItem(props) {
                         <Head>
                             <title>Sick Fits | {item.title}</title>
                         </Head>
-                        <img src={item.largeImage} alt={item.title}/>
-                        <div className="details">
-                            <h2>Viewing {item.title}</h2>
-                            <p>Reférence du produit : {item.reference}</p>
+                        <div>
+                            <img src={item.largeImage} alt={item.title}/>
+                            <div className="details">
+                                <h2>Viewing {item.title}</h2>
+                                <p>Reférence du produit : {item.reference}</p>
+                            </div>
                         </div>
                     </SingleItemStyles>
                 );

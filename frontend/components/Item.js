@@ -51,4 +51,4 @@ export default function Item(props) {
 
 Item.propTypes = {
     item: PropTypes.object.isRequired,
-}
+};

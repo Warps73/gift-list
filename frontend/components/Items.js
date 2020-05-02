@@ -36,7 +36,6 @@ class Items extends Component {
     render() {
         return (
             <Center>
-                <Pagination page={this.props.page}/>
                 <Query
                     query={ALL_ITEMS_QUERY}
                     fetchPolicy="cache-and-network"

@@ -9,6 +9,7 @@ const Item = styled.div`
   flex-direction: column;
   width : 400px;
   max-width : 400px;
+  margin-left: 3rem;
   img {
     width: auto;
     height: 200px;

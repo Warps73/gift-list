@@ -1,4 +1,4 @@
-import React, {Component, useState} from 'react';
+import React, {Fragment, useState} from 'react';
 import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
 import Router from 'next/router';
@@ -31,6 +31,7 @@ const CreateItem = () => {
     const [imgPreview, setImgPreview] = useState(undefined);
     const [files, setFiles] = useState(undefined);
     const [loading, setLoading] = useState(false);
+    const [title, setTitle] = useState('');
 
     function handleChangeFile(e) {
         const files = e.target.files;
@@ -41,6 +42,12 @@ const CreateItem = () => {
             setImgPreview(undefined);
             setFiles(undefined);
         }
+    }
+
+    function handleChange(e) {
+        let val = e.target.value;
+        setTitle(val);
+
     }
 
     async function uploadFile(files) {
@@ -61,93 +68,97 @@ const CreateItem = () => {
 
     return (
         <Mutation mutation={CREATE_ITEM_MUTATION} variables={state}>
-            {(createItem, {error}) => (
-                <Form
-                    onSubmit={handleSubmit(async ({title, reference, price, ...data}) => {
+            {(createItem, {error, loading}) => (
+                <Fragment>
+                    <h2>I wish... {title && `un(e) ${title}`}</h2>
+                    <Form
+                        onSubmit={handleSubmit(async ({title, reference, price, ...data}) => {
 
-                        setLoading(true);
-                        const file = await uploadFile(files);
-                        setState({
-                                title: title,
-                                reference: reference,
-                                price: parseInt(price),
-                                image: file.secure_url,
-                                largeImage: file.eager[0].secure_url,
+                            setLoading(true);
+                            const file = await uploadFile(files);
+                            setState({
+                                    title: title,
+                                    reference: reference,
+                                    price: parseInt(price),
+                                    image: file.secure_url,
+                                    largeImage: file.eager[0].secure_url,
+                                }
+                            );
+                            const res = await createItem();
+                            if (error) {
+                                setLoading(false);
                             }
-                        );
-                        const res = await createItem();
-                        if (error) {
-                            setLoading(false);
-                        }
-                        // todo change them to the single item page
-                        await Router.push({
-                            pathname: '/item',
-                            query: {id: res.data.createItem.id},
-                        });
-                    })}
+                            // todo change them to the single item page
+                            await Router.push({
+                                pathname: '/item',
+                                query: {id: res.data.createItem.id},
+                            });
+                        })}
 
-                >
-                    <Error error={error}/>
-                    <fieldset disabled={loading} aria-busy={loading}>
-                        <label htmlFor="file">
-                            Image
-                            <input
-                                type="file"
-                                id="file"
-                                name="file"
-                                placeholder="Upload an image"
-                                onChange={handleChangeFile}
-                                ref={register({required: true})}
-                            />
-                            {errors.title && <span>Il faut une image...</span>}
-                        </label>
-                        {imgPreview &&
-                        <img style={{maxHeight: "200px", width: "auto"}} src={imgPreview} alt="img"/>}
-                        <label htmlFor="title">
-                            Title
-                            <input
-                                type="text"
-                                id="title"
-                                name="title"
-                                placeholder="Title"
-                                ref={register({required: true})}
-                            />
-                            {errors.title && <span>OH! Et le nom du cadeau</span>}
-                        </label>
+                    >
+                        <Error error={error}/>
+                        <fieldset disabled={loading} aria-busy={loading}>
+                            <label htmlFor="file">
+                                Avec une image c'est plus facile pour les autres
+                                <input
+                                    type="file"
+                                    id="file"
+                                    name="file"
+                                    placeholder="Upload an image"
+                                    onChange={handleChangeFile}
+                                    ref={register({required: true})}
+                                />
+                                {errors.title && <span>Il faut une image...</span>}
+                            </label>
+                            {imgPreview &&
+                            <img style={{maxHeight: "200px", width: "auto"}} src={imgPreview} alt="img"/>}
+                            <label htmlFor="title">
+                                Son petit nom
+                                <input
+                                    type="text"
+                                    id="title"
+                                    name="title"
+                                    placeholder="Title"
+                                    onChange={handleChange}
+                                    ref={register({required: true})}
+                                />
+                                {errors.title && <span>OH! Et le nom du cadeau</span>}
+                            </label>
 
-                        <label htmlFor="price">
-                            Price
-                            <input
-                                type="number"
-                                id="price"
-                                name="price"
-                                placeholder="Price"
-                                ref={register({
-                                    required: true,
-                                    pattern: /[0-9]/
-                                })}
-                            />
-                            {errors.price?.type === "required" &&
-                            <span>C'est gratuit?</span>}
-                            {errors.price?.type === "pattern" &&
-                            <span>C'est un prix ça?</span>}
+                            <label htmlFor="price">
+                                En oui... Tout à un prix
+                                <input
+                                    type="number"
+                                    id="price"
+                                    name="price"
+                                    placeholder="Price"
+                                    ref={register({
+                                        required: true,
+                                        pattern: /[0-9]/
+                                    })}
+                                />
+                                {errors.price?.type === "required" &&
+                                <span>C'est gratuit?</span>}
+                                {errors.price?.type === "pattern" &&
+                                <span>C'est un prix ça?</span>}
 
-                        </label>
+                            </label>
 
-                        <label htmlFor="reference">
-                            Reference
-                            <input
-                                type="text"
-                                id="reference"
-                                name="reference"
-                                placeholder="Reference du produit"
-                                ref={register({required: true})}
-                            />
-                            {errors.reference && <span>Si tu veux l'avoir, donne la référence...!</span>}
-                        </label>
-                        <button type="submit">Enregistrer</button>
-                    </fieldset>
-                </Form>
+                            <label htmlFor="reference">
+                                Avec le réf, pas d'erreur possible!
+                                <input
+                                    type="text"
+                                    id="reference"
+                                    name="reference"
+                                    placeholder="Reference du produit"
+                                    ref={register({required: true})}
+                                />
+                                {errors.reference && <span>Si tu veux l'avoir, donne la référence...!</span>}
+                            </label>
+                            <button type="submit">Enregistrer</button>
+                        </fieldset>
+                    </Form>
+                </Fragment>
             )}
         </Mutation>
     );

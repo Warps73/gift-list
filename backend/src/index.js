@@ -5,7 +5,6 @@ const createServer = require('./createServer');
 const db = require('./db');
 
 const server = createServer();
-
 server.express.use(cookieParser());
 // Todo use express middleware to populate current user
 server.start({
