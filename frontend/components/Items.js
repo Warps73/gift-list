@@ -27,9 +27,12 @@ const Center = styled.div`
 const ItemsList = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
   max-width: ${props => props.theme.maxWidth};
   margin: 0 auto;
+  @media screen and (max-width: 768px) {
+  justify-content: center;
+}
 `;
 
 class Items extends Component {
@@ -38,7 +41,6 @@ class Items extends Component {
             <Center>
                 <Query
                     query={ALL_ITEMS_QUERY}
-                    fetchPolicy="cache-and-network"
                     variables={{
                         skip: this.props.page * perPage - perPage,
                     }}>

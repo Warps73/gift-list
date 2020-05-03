@@ -40,7 +40,7 @@ const Mutations = {
 
     async signup(parent, args, ctx, info) {
         if (args.secretKey !== process.env.SIGNUP_SECRET) {
-            throw 'Invalid secret app key';
+            throw new Error('Invalid secret app key');
         }
         const secretKey = await bcrypt.hash(args.secretKey, 10);
         // lower case their email
@@ -57,6 +57,27 @@ const Mutations = {
             }
         }, info);
         // create token
+        const token = jwt.sign({userId: user.id}, process.env.APP_SECRET);
+        // set jwt as cookie to response
+        ctx.response.cookie('token', token, {
+            httpOnly: true,
+            maxAge: 1000 * 60 * 60 * 24 * 365 // on year cookie
+        });
+
+        return user
+    },
+    async signin(parent, args, ctx, info) {
+
+        // lower case their email
+        args.email = args.email.toLowerCase();
+        const user = await ctx.db.query.user({where: {email: args.email}});
+        if (!user) {
+            throw new Error('Make sure your email / password is valid')
+        }
+        const valid = await bcrypt.compare(args.password, user.password);
+        if (!valid) {
+            throw new Error('Make sure your email / password is valid')
+        }
         const token = jwt.sign({userId: user.id}, process.env.APP_SECRET);
         // set jwt as cookie to response
         ctx.response.cookie('token', token, {

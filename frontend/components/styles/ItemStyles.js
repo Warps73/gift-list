@@ -5,10 +5,10 @@ const Item = styled.div`
   border: 1px solid ${props => props.theme.offWhite};
   box-shadow: ${props => props.theme.bs};
   position: relative;
-  display: flex;
-  flex-direction: column;
-  width : 400px;
-  max-width : 400px;
+  margin-top: 3rem;
+  flex-grow: 1;
+  width: calc(100% * (1/2) - 3rem - 1px);
+  max-width : calc(100% * (1/2) - 3rem - 1px);
   margin-left: 3rem;
   img {
     width: auto;

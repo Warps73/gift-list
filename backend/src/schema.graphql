@@ -11,6 +11,7 @@ type Mutation {
     updateItem (id : ID!, title : String, reference : String, price : Int) : Item!
     deleteItem(id: ID!): Item
     signup(email: String!, password: String!, name: String!, secretKey: String!): User!
+    signin(email: String!, password: String!): User!
 
 }
 
@@ -18,4 +19,5 @@ type Query {
     items(where:ItemWhereUniqueInput, orderBy: ItemOrderByInput, skip: Int, first: Int  ) :[Item]!
     item(where : ItemWhereUniqueInput!) : Item!
     itemsConnection(where:ItemWhereUniqueInput): ItemConnection!
+    currentUser: User
 }

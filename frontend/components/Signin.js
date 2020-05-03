@@ -5,18 +5,14 @@ import Form from "./styles/Form";
 import Error from "./ErrorMessage";
 import {CURRENT_USER_QUERY} from "./User";
 
-const SIGNUP_MUTATION = gql`
-    mutation SIGNUP_MUTATION(
+const SIGNIN_MUTATION = gql`
+    mutation SIGNIN_MUTATION(
         $email: String!
-        $name: String!
         $password: String!
-        $secretKey: String!
     ){
-        signup(
+        signin(
             email: $email
-            name: $name
             password: $password
-            secretKey: $secretKey
         ){
             id
             email
@@ -26,12 +22,10 @@ const SIGNUP_MUTATION = gql`
 `;
 
 
-function Signup() {
+function Signin() {
     const [state, setState] = useState({
         password: '',
-        name: '',
         email: '',
-        secretKey: '',
     });
     const handleChange = (e) => {
         setState({...state, [e.target.name]: e.target.value});
@@ -40,34 +34,26 @@ function Signup() {
 
     return (
         <Mutation
-            mutation={SIGNUP_MUTATION}
-            variables={state}
             refetchQueries={[{query: CURRENT_USER_QUERY}]}
-        >
-            {(signup, {error, loading}) => {
+            mutation={SIGNIN_MUTATION}
+            variables={state}>
+            {(signin, {error, loading}) => {
 
                 return (
                     <Form method="post" onSubmit={async (e) => {
                         e.preventDefault();
-                        const res = await signup();
+                        const res = await signin();
                         setState({
                             password: '',
-                            name: '',
                             email: '',
-                            secretKey: '',
                         })
                     }}>
                         <Error error={error}/>
                         <fieldset disabled={loading} aria-busy={loading}>
-                            <h2>Créer mon compte</h2>
+                            <h2>Déjà inscrit? Me connecter</h2>
                             <label htmlFor="email">
                                 Email
                                 <input type="text" name="email" placeholder="email" value={state.email}
-                                       onChange={handleChange}/>
-                            </label>
-                            <label htmlFor="name">
-                                Nom
-                                <input type="text" name="name" placeholder="name" value={state.name}
                                        onChange={handleChange}/>
                             </label>
                             <label htmlFor="password">
@@ -75,12 +61,7 @@ function Signup() {
                                 <input type="password" name="password" placeholder="password" value={state.password}
                                        onChange={handleChange}/>
                             </label>
-                            <label htmlFor="secretKey">
-                                Clé secrete
-                                <input type="password" name="secretKey" value={state.secretKey} placeholder="secretKey"
-                                       onChange={handleChange}/>
-                            </label>
-                            <button type="submit">Signup</button>
+                            <button type="submit">Sign In</button>
                         </fieldset>
                     </Form>
                 )
@@ -89,4 +70,4 @@ function Signup() {
     );
 }
 
-export default Signup;
+export default Signin;

@@ -6,6 +6,8 @@ import Form from './styles/Form';
 import formatMoney from '../lib/formatMoney';
 import Error from './ErrorMessage';
 import {useForm} from 'react-hook-form'
+import {ALL_ITEMS_QUERY} from "./Items";
+import {PAGINATION_QUERY} from "./Pagination";
 
 const CREATE_ITEM_MUTATION = gql`
     mutation CREATE_ITEM_MUTATION(
@@ -67,8 +69,12 @@ const CreateItem = () => {
 
 
     return (
-        <Mutation mutation={CREATE_ITEM_MUTATION} variables={state}>
-            {(createItem, {error, loading}) => (
+        <Mutation
+            mutation={CREATE_ITEM_MUTATION}
+            variables={state}
+            refetchQueries={[{query: ALL_ITEMS_QUERY}]}
+        >
+            {(createItem, {error}) => (
                 <Fragment>
                     <h2>I wish... {title && `un(e) ${title}`}</h2>
                     <Form

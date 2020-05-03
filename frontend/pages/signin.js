@@ -1,7 +1,5 @@
 import React from "react";
-import Signup from "../components/Signup";
 import Signin from "../components/Signin.js";
-
 import styled from "styled-components";
 
 const Columns = styled.div`
@@ -10,11 +8,10 @@ const Columns = styled.div`
     width: 100%;
 `;
 
-const SignupPage = props => (
+const SigninPage = props => (
     <Columns>
-        <Signup/>
         <Signin/>
     </Columns>
 );
 
-export default SignupPage;
+export default SigninPage;
