@@ -11,6 +11,7 @@ type User {
     name: String!
     email: String! @unique
     password: String!
+    secretKey: String!
     resetToken: String
     resetTokenExpiry: Float
     permissions: [Permission] @scalarList(strategy: RELATION)

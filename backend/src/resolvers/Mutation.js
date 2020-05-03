@@ -39,6 +39,10 @@ const Mutations = {
     },
 
     async signup(parent, args, ctx, info) {
+        if (args.secretKey !== process.env.SIGNUP_SECRET) {
+            throw 'Invalid secret app key';
+        }
+        const secretKey = await bcrypt.hash(args.secretKey, 10);
         // lower case their email
         args.email = args.email.toLowerCase();
         // hash the password
@@ -48,6 +52,7 @@ const Mutations = {
             data: {
                 ...args,
                 password,
+                secretKey,
                 permissions: {set: ['USER']}
             }
         }, info);

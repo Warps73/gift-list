@@ -9,11 +9,13 @@ const SIGNUP_MUTATION = gql`
         $email: String!
         $name: String!
         $password: String!
+        $secretKey: String!
     ){
         signup(
             email: $email
             name: $name
             password: $password
+            secretKey: $secretKey
         ){
             id
             email
@@ -42,7 +44,7 @@ function Signup() {
                 return (
                     <Form method="post" onSubmit={async (e) => {
                         e.preventDefault();
-                        const res = await signup({test: 'testy'});
+                        const res = await signup();
                         setState({
                             password: '',
                             name: '',
