@@ -1,7 +1,8 @@
 import Link from 'next/link';
-import NavStyles from './styles/NavStyles';
-import User from "./User";
 import React, {Fragment} from "react";
+import Signout from "./Signout";
+import User from "./User";
+import NavStyles from './styles/NavStyles';
 
 const Nav = () => (
     <User>
@@ -20,6 +21,7 @@ const Nav = () => (
                             <Link href="/me">
                                 <a>Account</a>
                             </Link>
+                            <Signout/>
                         </NavStyles>
                     )
                 } else {
