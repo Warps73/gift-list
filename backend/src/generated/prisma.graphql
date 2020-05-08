@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/prefol-timothy-71bbfb/wish-list/dev
-# timestamp: Sat May 02 2020 23:09:10 GMT+0200 (heure d’été d’Europe centrale)
+# timestamp: Fri May 08 2020 22:57:02 GMT+0200 (heure d’été d’Europe centrale)
 
 type AggregateItem {
   count: Int!
@@ -497,7 +497,6 @@ type User implements Node {
   name: String!
   email: String!
   password: String!
-  secretKey: String!
   resetToken: String
   resetTokenExpiry: Float
   permissions: [Permission!]!
@@ -520,7 +519,6 @@ input UserCreateInput {
   name: String!
   email: String!
   password: String!
-  secretKey: String!
   resetToken: String
   resetTokenExpiry: Float
   permissions: UserCreatepermissionsInput
@@ -548,8 +546,6 @@ enum UserOrderByInput {
   email_DESC
   password_ASC
   password_DESC
-  secretKey_ASC
-  secretKey_DESC
   resetToken_ASC
   resetToken_DESC
   resetTokenExpiry_ASC
@@ -565,7 +561,6 @@ type UserPreviousValues {
   name: String!
   email: String!
   password: String!
-  secretKey: String!
   resetToken: String
   resetTokenExpiry: Float
   permissions: [Permission!]!
@@ -614,7 +609,6 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
-  secretKey: String
   resetToken: String
   resetTokenExpiry: Float
   permissions: UserUpdatepermissionsInput
@@ -624,7 +618,6 @@ input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
-  secretKey: String
   resetToken: String
   resetTokenExpiry: Float
   permissions: UserUpdatepermissionsInput
@@ -803,46 +796,6 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   password_not_ends_with: String
-  secretKey: String
-
-  """All values that are not equal to given value."""
-  secretKey_not: String
-
-  """All values that are contained in given list."""
-  secretKey_in: [String!]
-
-  """All values that are not contained in given list."""
-  secretKey_not_in: [String!]
-
-  """All values less than the given value."""
-  secretKey_lt: String
-
-  """All values less than or equal the given value."""
-  secretKey_lte: String
-
-  """All values greater than the given value."""
-  secretKey_gt: String
-
-  """All values greater than or equal the given value."""
-  secretKey_gte: String
-
-  """All values containing the given string."""
-  secretKey_contains: String
-
-  """All values not containing the given string."""
-  secretKey_not_contains: String
-
-  """All values starting with the given string."""
-  secretKey_starts_with: String
-
-  """All values not starting with the given string."""
-  secretKey_not_starts_with: String
-
-  """All values ending with the given string."""
-  secretKey_ends_with: String
-
-  """All values not ending with the given string."""
-  secretKey_not_ends_with: String
   resetToken: String
 
   """All values that are not equal to given value."""
