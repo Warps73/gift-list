@@ -4,6 +4,7 @@ import Page from "../components/Page";
 import {ApolloProvider} from 'react-apollo';
 import withData from "../lib/withData";
 import "react-loader-spinner/dist/loader/css/react-spinner-loader.css"
+import 'react-toastify/dist/ReactToastify.css';
 
 class MyApp extends App {
     static async getInitialProps({Component, ctx}) {

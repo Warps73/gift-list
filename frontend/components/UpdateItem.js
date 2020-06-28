@@ -7,6 +7,7 @@ import formatMoney from '../lib/formatMoney';
 import Error from './ErrorMessage';
 import {useForm} from 'react-hook-form'
 import {useQuery} from "@apollo/react-hooks";
+import {toast, ToastContainer} from "react-toastify";
 
 const SINGLE_ITEM_QUERY = gql`
     query SINGLE_ITEM_QUERY($id: ID!){
@@ -31,11 +32,20 @@ const UPDATE_ITEM_MUTATION = gql`
         }
     }
 `;
+toast.configure();
+const notify = () => toast.success("Saved !", {
+    autoClose: 1500,
+});
+
 const UpdateItem = ({id}) => {
     const {register, handleSubmit, errors, setValue} = useForm();
 
     const updateItemMutation = ({price, ...data}, updateItem) => {
         updateItem({variables: {id: id, price: parseInt(price), ...data}})
+            .then(function (data) {
+                notify();
+            })
+
     };
 
     const {loading, data, error} = useQuery(SINGLE_ITEM_QUERY, {variables: {id}});
