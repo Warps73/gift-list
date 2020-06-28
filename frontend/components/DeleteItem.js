@@ -2,6 +2,7 @@ import React from 'react';
 import {Mutation} from 'react-apollo';
 import gql from "graphql-tag";
 import {ALL_ITEMS_QUERY} from "./Items";
+import {notifySuccess} from "./nofify";
 
 const DELETE_ITEM_MUTATION = gql`
     mutation DELETE_ITEM_MUTATION($id: ID!){
@@ -34,6 +35,9 @@ function DeleteItem({children, ...props}) {
                 <button onClick={() => {
                     if (confirm('Êtes vous sur?')) {
                         deleteItem()
+                            .then(function (data) {
+                                notifySuccess('Successfully deleted')
+                            })
                     }
                 }}>{children}</button>
             )}
