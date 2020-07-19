@@ -50,7 +50,7 @@ function Signin() {
                     }}>
                         <Error error={error}/>
                         <fieldset disabled={loading} aria-busy={loading}>
-                            <h2>Déjà inscrit? Me connecter</h2>
+                            <h2>Se connecter</h2>
                             <label htmlFor="email">
                                 Email
                                 <input type="text" name="email" placeholder="email" value={state.email}
