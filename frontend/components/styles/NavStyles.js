@@ -15,6 +15,7 @@ const NavStyles = styled.ul`
     align-items: center;
     position: relative;
     text-transform: uppercase;
+    text-decoration : none;
     font-weight: 900;
     font-size: 1em;
     background: none;
@@ -36,7 +37,7 @@ const NavStyles = styled.ul`
       top: 0;
       bottom: 0;
     }
-    &:not(:first-child):after {
+    &:after {
       height: 2px;
       background: #ba00ff;
       content: '';
@@ -50,6 +51,7 @@ const NavStyles = styled.ul`
     }
     &:hover,
     &:focus {
+      color: ${props => props.theme.black};
       outline: none;
       &:after {
         width: calc(100% - 60px);

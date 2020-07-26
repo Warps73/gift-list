@@ -19,7 +19,19 @@ server.express.use((req, res, next) => {
     next();
 });
 
+
 // Todo use express middleware to populate current user
+server.express.use(async (req, res, next) => {
+    if (!req.userId) {
+        return next();
+    }
+    req.user = await db.query.user({
+        where: {
+            id: req.userId
+        },
+    }, '{id, permissions, email, name}');
+    next();
+});
 server.start({
     cors: {
         credentials: true,

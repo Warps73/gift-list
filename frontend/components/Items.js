@@ -51,8 +51,6 @@ class Items extends Component {
                                 color="#ba00ff"
                                 height={500}
                                 width={100}
-                                timeout={3000} //3 secs
-
                             />);
                         if (error) return <p>Error: {error.message}</p>;
                         return (
