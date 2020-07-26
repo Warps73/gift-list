@@ -1,5 +1,5 @@
 # source: https://eu1.prisma.sh/prefol-timothy-71bbfb/wish-list/dev
-# timestamp: Wed Jun 10 2020 21:33:55 GMT+0200 (heure d’été d’Europe centrale)
+# timestamp: Sun Jul 19 2020 19:25:29 GMT+0200 (heure d’été d’Europe centrale)
 
 type AggregateItem {
   count: Int!
@@ -474,6 +474,7 @@ type PageInfo {
 enum Permission {
   ADMIN
   USER
+  PERMISSION_UPDATE
 }
 
 type Query {

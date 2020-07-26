@@ -1,6 +1,7 @@
 enum Permission{
     ADMIN
     USER
+    PERMISSION_UPDATE
 }
 
 scalar DateTime
