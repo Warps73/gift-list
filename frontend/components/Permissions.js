@@ -3,6 +3,7 @@ import {Query} from "react-apollo";
 import gql from "graphql-tag";
 import Error from "./ErrorMessage";
 import Loader from "react-loader-spinner";
+import PropTypes from "prop-types";
 
 const All_USERS_QUERY = gql`
     query {
@@ -21,8 +22,25 @@ const possiblePermissions = [
     'PERMISSION_UPDATE'
 ];
 
-const User = (props) => {
+const UserPermissions = (props) => {
+
+    const handlePermissionChange = (e) => {
+        const checkbox = e.target;
+        let updatedPermission = state.permissions;
+        if (checkbox.checked) {
+            updatedPermission.push(checkbox.value)
+        } else {
+            updatedPermission = updatedPermission.filter((permission) => {
+                return e !== checkbox.value;
+            })
+
+        }
+
+        setState({permissions: updatedPermission})
+    };
+    const [state, setState] = useState({permissions: props.user.permissions});
     const user = props.user;
+
     return (
         <tr key={user.id}>
             <td>{user.email}</td>
@@ -32,7 +50,8 @@ const User = (props) => {
                     <td key={k}>
                         <label htmlFor={`${user.id}-permission-${permission}`}>
                             <input id={`${user.id}-permission-${permission}`}
-                                   checked={user.permissions.includes(permission)} type='checkbox'/>
+                                   checked={state.permissions.includes(permission)} value={permission}
+                                   type='checkbox' onChange={handlePermissionChange}/>
                         </label>
                     </td>
                 )
@@ -41,8 +60,13 @@ const User = (props) => {
     );
 };
 
-const handleClick = function (e) {
-    return e.target.checked = !e.target.checked;
+UserPermissions.propTypes = {
+    user: PropTypes.shape({
+        name: PropTypes.string,
+        email: PropTypes.string,
+        id: PropTypes.string,
+        permissions: PropTypes.array,
+    }).isRequired
 };
 
 
@@ -74,15 +98,15 @@ const Permissions = (props) => {
                             <tr>
                                 <th>Name</th>
                                 <th>Email</th>
-                                {possiblePermissions.map(function (permission) {
-                                    return (<th>{permission}</th>)
+                                {possiblePermissions.map(function (permission, key) {
+                                    return (<th key={key}>{permission}</th>)
                                 })}
                             </tr>
                             </thead>
                             <tbody>
-                            {data.users.map(function (user) {
+                            {data.users.map(function (user, key) {
                                 return (
-                                    <User user={user}/>
+                                    <UserPermissions key={key} user={user}/>
                                 )
                             })}
                             </tbody>
