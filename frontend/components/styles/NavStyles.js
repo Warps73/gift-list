@@ -6,10 +6,12 @@ const NavStyles = styled.ul`
   display: flex;
   justify-self: end;
   font-size: 2rem;
+  overflow-x: hidden;
   a,
   button {
     padding: 1rem 3rem;
     display: flex;
+    margin: 0;
     align-items: center;
     position: relative;
     text-transform: uppercase;
@@ -23,7 +25,7 @@ const NavStyles = styled.ul`
       font-size: 10px;
       padding: 0 10px;
     }
-    &:before {
+    &:not(:first-child):before {
       content: '';
       width: 2px;
       background: ${props => props.theme.lightgrey};
@@ -34,7 +36,7 @@ const NavStyles = styled.ul`
       top: 0;
       bottom: 0;
     }
-    &:after {
+    &:not(:first-child):after {
       height: 2px;
       background: #ba00ff;
       content: '';
@@ -44,7 +46,7 @@ const NavStyles = styled.ul`
       transition: width 0.4s;
       transition-timing-function: cubic-bezier(1, -0.65, 0, 2.31);
       left: 50%;
-      margin-top: 2rem;
+      margin-top: 3.5rem;
     }
     &:hover,
     &:focus {
