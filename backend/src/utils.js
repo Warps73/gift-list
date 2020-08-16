@@ -1,10 +1,14 @@
+/**
+ *
+ * @param user
+ * @param [permissionsNeeded]
+ */
 function hasPermission(user, permissionsNeeded) {
-  console.log(user);
-  const matchedPermissions = user.permissions.filter(permissionTheyHave =>
-    permissionsNeeded.includes(permissionTheyHave)
-  );
-  if (!matchedPermissions.length) {
-    throw new Error(`You do not have sufficient permissions
+    const matchedPermissions = user.permissions.filter(permissionTheyHave =>
+        permissionsNeeded.includes(permissionTheyHave)
+    );
+    if (!matchedPermissions.length) {
+        throw new Error(`You do not have sufficient permissions
 
       : ${permissionsNeeded}
 
@@ -12,7 +16,7 @@ function hasPermission(user, permissionsNeeded) {
 
       ${user.permissions}
       `);
-  }
+    }
 }
 
 exports.hasPermission = hasPermission;

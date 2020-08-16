@@ -1,9 +1,22 @@
-import React, {useState} from 'react';
+import React, {Fragment, useState} from 'react';
 import {Query} from "react-apollo";
 import gql from "graphql-tag";
 import Error from "./ErrorMessage";
 import Loader from "react-loader-spinner";
 import PropTypes from "prop-types";
+import {useMutation} from "@apollo/react-hooks";
+
+
+const UPDATE_PERMISSIONS_MUTATION = gql`
+    mutation UPDATE_PERMISSIONS_MUTATION($permissions: [Permission], $userId : ID!){
+        updatePermissions(permissions : $permissions, userId : $userId){
+            id
+            permissions
+            email
+            name
+        }
+    }
+`;
 
 const All_USERS_QUERY = gql`
     query {
@@ -24,40 +37,72 @@ const possiblePermissions = [
 
 const UserPermissions = (props) => {
 
-    const handlePermissionChange = (e) => {
+    const [
+        updatePermissions,
+        {
+            loading: mutationLoading,
+            error: mutationError
+        }] = useMutation(UPDATE_PERMISSIONS_MUTATION);
+    const [state, setState] = useState({
+        permissions: props.user.permissions,
+        userId: props.user.id
+    });
+    const user = props.user;
+
+    const handlePermissionChange = async (e) => {
         const checkbox = e.target;
-        let updatedPermission = state.permissions;
+        let newPermissions = state.permissions;
         if (checkbox.checked) {
-            updatedPermission.push(checkbox.value)
+            newPermissions.push(checkbox.value)
         } else {
-            updatedPermission = updatedPermission.filter((permission) => {
+            newPermissions = newPermissions.filter((permission) => {
                 return permission !== checkbox.value;
             })
 
         }
+        setState(prevState => ({
+            userId: prevState.userId,
+            permissions: newPermissions
 
-        setState({permissions: updatedPermission})
+        }));
+
+        const res = await updatePermissions(
+            {
+                variables: {
+                    permissions: newPermissions,
+                    userId: state.userId
+                }
+            }
+        );
+
+
     };
-    const [state, setState] = useState({permissions: props.user.permissions});
-    const user = props.user;
 
     return (
-        <tr key={user.id}>
-            <td>{user.email}</td>
-            <td>{user.name}</td>
-            {possiblePermissions.map(function (permission, k) {
-                return (
-                    <td key={k}>
-                        <label className='d-block p-2' htmlFor={`${user.id}-permission-${permission}`}>
-                            <input id={`${user.id}-permission-${permission}`}
-                                   checked={state.permissions.includes(permission)} value={permission}
-                                   type='checkbox' onChange={handlePermissionChange}/>
-                        </label>
-                    </td>
-                )
-            })}
-        </tr>
-    );
+        <Fragment>
+            {mutationError ? <tr>
+                <td colSpan='5'><Error error={mutationError}/></td>
+            </tr> : null}
+            <tr key={user.id}>
+                <td>{user.email}</td>
+                <td>{user.name}</td>
+                {possiblePermissions.map(function (permission, k) {
+                    return (
+                        <td key={k}>
+                            <div className='d-flex align-items-baseline justify-content-between'>
+                                <label className='d-block p-2' htmlFor={`${user.id}-permission-${permission}`}>
+                                    <input id={`${user.id}-permission-${permission}`}
+                                           checked={state.permissions.includes(permission)} value={permission}
+                                           type='checkbox' onChange={handlePermissionChange}/>
+                                </label>
+                            </div>
+                        </td>
+                    )
+                })}
+
+            </tr>
+        </Fragment>
+    )
 };
 
 UserPermissions.propTypes = {
@@ -71,7 +116,6 @@ UserPermissions.propTypes = {
 
 
 const Permissions = (props) => {
-
     return (
         <Query query={All_USERS_QUERY}>
             {({data, loading, error}) => {
