@@ -31,7 +31,7 @@ const UserPermissions = (props) => {
             updatedPermission.push(checkbox.value)
         } else {
             updatedPermission = updatedPermission.filter((permission) => {
-                return e !== checkbox.value;
+                return permission !== checkbox.value;
             })
 
         }
@@ -48,7 +48,7 @@ const UserPermissions = (props) => {
             {possiblePermissions.map(function (permission, k) {
                 return (
                     <td key={k}>
-                        <label htmlFor={`${user.id}-permission-${permission}`}>
+                        <label className='d-block p-2' htmlFor={`${user.id}-permission-${permission}`}>
                             <input id={`${user.id}-permission-${permission}`}
                                    checked={state.permissions.includes(permission)} value={permission}
                                    type='checkbox' onChange={handlePermissionChange}/>
@@ -93,7 +93,7 @@ const Permissions = (props) => {
                         <div className="container">
                             <p className="h2">Manage Permission</p>
                         </div>
-                        <table className="table table-hover">
+                        <table className="table table-bordered table-hover">
                             <thead>
                             <tr>
                                 <th>Name</th>
