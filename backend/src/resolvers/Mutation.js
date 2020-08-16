@@ -44,9 +44,15 @@ const Mutations = {
     async deleteItem(parent, args, ctx, info) {
         const where = {id: args.id};
         // 1. find the item
-        const item = await ctx.db.query.item({where}, `{ id title}`);
+        const item = await ctx.db.query.item({where}, `{ id title user{ id }}`);
         // 2. Check if they own that item, or have the permissions
-        // TODO
+        const ownsItem = item.user.id === ctx.request.userId;
+        const hasPermissions = hasPermission(ctx.request.user, ['ADMIN']);
+        if (!ownsItem || hasPermissions) {
+
+            throw new Error('403 Forbidden')
+
+        }
         // 3. Delete it!
         return ctx.db.mutation.deleteItem({where}, info);
     },
@@ -164,7 +170,9 @@ const Mutations = {
         const currentUser = await ctx.db.query.user({
             where: {id: ctx.request.userId}
         }, info);
-        hasPermission(currentUser, ['ADMIN', 'PERMISSION_UPDATE']);
+        if (hasPermission(currentUser, ['ADMIN', 'PERMISSION_UPDATE'])) {
+            throw new Error('403 Forbidden')
+        }
 
         return ctx.db.mutation.updateUser({
             data: {

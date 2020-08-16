@@ -43,7 +43,7 @@ export default function Item(props) {
                     <a>Edit</a>
                 </Link>
                 <button>Add To Cart</button>
-                <DeleteItem id={item.id}>Supprimer</DeleteItem>
+                <DeleteItem item={item} id={item.id}>Supprimer</DeleteItem>
             </div>
         </ItemStyles>
     );

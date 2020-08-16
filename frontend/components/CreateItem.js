@@ -87,7 +87,7 @@ const CreateItem = () => {
                                     reference: reference,
                                     price: parseInt(price),
                                     image: file.secure_url,
-                                    largeImage: file.eager[0].secure_url,
+                                    largeImage: file.eager[0].secure_url
                                 }
                             );
                             const res = await createItem();

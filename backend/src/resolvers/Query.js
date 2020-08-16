@@ -21,7 +21,11 @@ const Query = {
         if (!ctx.request.userId) {
             throw new Error('You must be logged');
         }
-        hasPermission(ctx.request.user, ['ADMIN', 'PERMISSION_UPDATE']);
+
+        if (!hasPermission(ctx.request.user, ['ADMIN', 'PERMISSION_UPDATE'])) {
+            throw new Error('403 Forbidden')
+
+        }
 
         return ctx.db.query.users({}, info)
     }

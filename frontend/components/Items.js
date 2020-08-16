@@ -16,6 +16,10 @@ const ALL_ITEMS_QUERY = gql`
             reference
             image
             largeImage
+            user{
+                id
+                permissions
+            }
         }
     }
 `;
