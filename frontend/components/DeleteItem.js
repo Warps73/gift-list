@@ -1,4 +1,6 @@
 import React, {Fragment} from 'react';
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 import {Mutation, Query} from 'react-apollo';
 import gql from "graphql-tag";
 import {ALL_ITEMS_QUERY} from "./Items";
@@ -28,6 +30,8 @@ const update = (cache, payload) => {
 
 function DeleteItem({children, ...props}) {
     const {userItem} = {userItem: props.item.user};
+    const MySwal = withReactContent(Swal);
+
     return (
         <Fragment>
             <Query query={CURRENT_USER_QUERY}>
@@ -40,17 +44,27 @@ function DeleteItem({children, ...props}) {
                         >
                             {(deleteItem, {error, loading}) => (
                                 <button
-                                    disabled={props.item.user.id !== data.userId && hasPermission(userItem, ['ADMIN'])}
+                                    disabled={props.item.user.id !== data.userId && !hasPermission(userItem, ['ADMIN'])}
                                     onClick={() => {
-                                        if (confirm('Êtes vous sur?')) {
-                                            deleteItem()
-                                                .then(function (data) {
-                                                    notifySuccess('Successfully deleted')
-                                                })
-                                                .catch(err => {
-                                                    notifyError(err.message)
-                                                })
-                                        }
+                                        MySwal.fire({
+                                            title: 'Are you sure?',
+                                            text: "You won't be able to revert this!",
+                                            icon: 'warning',
+                                            showCancelButton: true,
+                                            confirmButtonColor: '#3085d6',
+                                            cancelButtonColor: '#d33',
+                                            confirmButtonText: 'Yes, delete it!'
+                                        }).then((result) => {
+                                            if (result.value) {
+                                                deleteItem()
+                                                    .then(function (data) {
+                                                        notifySuccess('Successfully deleted')
+                                                    })
+                                                    .catch(err => {
+                                                        notifyError(err.message)
+                                                    })
+                                            }
+                                        });
                                     }}>{children}
                                 </button>
                             )}

@@ -48,7 +48,7 @@ const Mutations = {
         // 2. Check if they own that item, or have the permissions
         const ownsItem = item.user.id === ctx.request.userId;
         const hasPermissions = hasPermission(ctx.request.user, ['ADMIN']);
-        if (!ownsItem || hasPermissions) {
+        if (!ownsItem || !hasPermissions) {
 
             throw new Error('403 Forbidden')
 
@@ -170,7 +170,8 @@ const Mutations = {
         const currentUser = await ctx.db.query.user({
             where: {id: ctx.request.userId}
         }, info);
-        if (hasPermission(currentUser, ['ADMIN', 'PERMISSION_UPDATE'])) {
+
+        if (!hasPermission(currentUser, ['ADMIN', 'PERMISSION_UPDATE'])) {
             throw new Error('403 Forbidden')
         }
 
