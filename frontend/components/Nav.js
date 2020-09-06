@@ -18,8 +18,8 @@ const Nav = () => (
                             <Link href="/sell">
                                 <a>Une envie ?</a>
                             </Link>
-                            <Link href="/me">
-                                <a>Account</a>
+                            <Link href="/reservations">
+                                <a>Reservations</a>
                             </Link>
                             <Signout/>
                         </NavStyles>

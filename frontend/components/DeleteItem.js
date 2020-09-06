@@ -44,7 +44,7 @@ function DeleteItem({children, ...props}) {
                         >
                             {(deleteItem, {error, loading}) => (
                                 <button
-                                    disabled={props.item.user.id !== data.userId && !hasPermission(userItem, ['ADMIN'])}
+                                    className="text-danger"
                                     onClick={() => {
                                         MySwal.fire({
                                             title: 'Are you sure?',
