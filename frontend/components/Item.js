@@ -6,6 +6,8 @@ import DeleteItem from "./DeleteItem";
 import ItemStyles from './styles/ItemStyles';
 import PriceTag from './styles/PriceTag';
 import formatMoney from '../lib/formatMoney';
+import User from "./User";
+import hasPermission from "../lib/hasPermissions";
 
 
 export default function Item(props) {
@@ -43,7 +45,19 @@ export default function Item(props) {
                     <a>Edit</a>
                 </Link>
                 <button>Add To Cart</button>
-                <DeleteItem item={item} id={item.id}>Supprimer</DeleteItem>
+                <User>
+                    {({data}) => {
+                        if (data) {
+                            const {currentUser} = data;
+                            if (currentUser && hasPermission(currentUser, ['ADMIN', 'PERMISSION_UPDATE'])) {
+                                return (
+                                    <DeleteItem item={item} id={item.id}>Supprimer</DeleteItem>
+                                )
+                            }
+                        }
+                        return null;
+                    }}
+                </User>
             </div>
         </ItemStyles>
     );
