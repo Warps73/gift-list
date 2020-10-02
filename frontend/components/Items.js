@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
 import {Query} from 'react-apollo';
 import gql from 'graphql-tag';
-import styled from 'styled-components';
 import Item from './Item';
 import Pagination from "./Pagination";
 import {perPage} from "../config";
@@ -24,25 +23,10 @@ const ALL_ITEMS_QUERY = gql`
     }
 `;
 
-const Center = styled.div`
-  text-align: center;
-`;
-
-const ItemsList = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  max-width: ${props => props.theme.maxWidth};
-  margin: 0 auto;
-  @media screen and (max-width: 768px) {
-  justify-content: center;
-}
-`;
-
 class Items extends Component {
     render() {
         return (
-            <Center>
+            <div className="text-center">
                 <Query
                     query={ALL_ITEMS_QUERY}
                     variables={{
@@ -58,12 +42,12 @@ class Items extends Component {
                             />);
                         if (error) return <p>Error: {error.message}</p>;
                         return (
-                            <ItemsList>{data.items.map(item => <Item item={item} key={item.id}/>)}</ItemsList>
+                            <div className='row'>{data.items.map(item => <Item item={item} key={item.id}/>)}</div>
                         );
                     }}
                 </Query>
                 <Pagination page={this.props.page}/>
-            </Center>
+            </div>
         );
     }
 }

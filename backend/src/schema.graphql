@@ -24,7 +24,8 @@ type Mutation {
 }
 
 type Query {
-    items(where:ItemWhereUniqueInput, orderBy: ItemOrderByInput, skip: Int, first: Int  ) :[Item]!
+    items(where:ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, first: Int  ) :[Item]!
+    userItems(where:ItemWhereInput, orderBy: ItemOrderByInput, skip: Int, first: Int  ) :[Item]!
     item(where : ItemWhereUniqueInput!) : Item!
     itemsConnection(where:ItemWhereUniqueInput): ItemConnection!
     currentUser: User

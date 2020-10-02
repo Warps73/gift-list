@@ -6,7 +6,6 @@ import gql from "graphql-tag";
 import {ALL_ITEMS_QUERY} from "./Items";
 import {notifyError, notifySuccess} from "./nofify";
 import {CURRENT_USER_QUERY} from "./User";
-import {hasPermission} from "../../backend/src/utils";
 
 const DELETE_ITEM_MUTATION = gql`
     mutation DELETE_ITEM_MUTATION($id: ID!){
@@ -71,8 +70,6 @@ function DeleteItem({children, ...props}) {
                         </Mutation>
                     );
                 }}
-
-
             </Query>
         </Fragment>
     );

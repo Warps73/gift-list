@@ -1,42 +1,28 @@
 import styled from 'styled-components';
 
-const Item = styled.div`
-  background: white;
-  border: 1px solid ${props => props.theme.offWhite};
-  box-shadow: ${props => props.theme.bs};
-  position: relative;
-  margin-top: 3rem;
-  flex-grow: 1;
-  width: calc(100% * (1/2) - 3rem - 1px);
-  max-width : calc(100% * (1/2) - 3rem - 1px);
-  margin-left: 3rem;
-  img {
-    width: auto;
-    height: 200px;
-    object-fit: cover;
-    cursor: pointer;
-  }
-  p {
-    line-height: 2;
-    font-weight: 300;
-    flex-grow: 1;
-    padding: 0 3rem;
-    font-size: 1.5rem;
-  }
-  .buttonList {
-    display: grid;
-    width: 100%;
-    border-top: 1px solid ${props => props.theme.lightgrey};
-    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-    grid-gap: 1px;
-    background: ${props => props.theme.lightgrey};
-    & > * {
-      background: white;
-      border: 0;
-      font-size: 1rem;
-      padding: 1rem;
-    }
-  }
+const Item = styled.article`
+  max-height : 400px;
+  overflow:hidden;
+  background:white;
+  width:15em;
+  padding:2em;
+  border-radius:1em;
+  text-align:center;
+  box-shadow:2px 2px 4px 2px rgba(0,0,0,0.5);
+p{
+  font-size:1.8rem;
+}
+h4{
+  color:rgba(0,0,0,0.6);
+}
+
+button{
+  font-size:1.5rem;
+  padding:0.5em 1em;
+  border-radius:0.5em;
+  margin:-3em 0;
+  transition:all 0.3s;
+}
 `;
 
 export default Item;

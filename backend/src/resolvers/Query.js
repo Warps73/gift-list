@@ -28,6 +28,19 @@ const Query = {
         }
 
         return ctx.db.query.users({}, info)
+    },
+    async userItems(parent, args, ctx, info) {
+        if (!ctx.request.userId) {
+            throw new Error('You must be logged');
+        }
+
+        return ctx.db.query.items({
+            where: {
+                user: {
+                    id: ctx.request.userId
+                }
+            }
+        }, info)
     }
 };
 
