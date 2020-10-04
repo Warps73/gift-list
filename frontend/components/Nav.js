@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import React, {Fragment} from "react";
+import React from "react";
 import Signout from "./Signout";
 import User from "./User";
 import NavStyles from './styles/NavStyles';

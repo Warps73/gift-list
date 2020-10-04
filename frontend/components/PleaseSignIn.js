@@ -11,7 +11,7 @@ const PleaseSignIn = (props) => {
                     if (loading) {
                         return <p>Loading</p>
                     }
-                    if (!data.currentUser) {
+                    if (!data || !data.currentUser) {
                         return (
                             <div>
                                 <p>Vous devez être connecté pour accéder à cette page</p>
