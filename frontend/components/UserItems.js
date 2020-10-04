@@ -17,6 +17,7 @@ const USER_ITEMS_QUERY = gql`
             user{
                 id
                 permissions
+                name
             }
         }
     }

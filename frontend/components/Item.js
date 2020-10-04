@@ -20,7 +20,7 @@ export default function Item(props) {
                     }}
                 >
                     <div>
-                        {item.image && <img className="rounded img-fluid" src={item.image} alt={item.title}/>}
+                        {item.image && <img className="img-fluid img-thumbnail" src={item.image} alt={item.title}/>}
                     </div>
                 </Link>
                 <h4>
@@ -34,9 +34,7 @@ export default function Item(props) {
                     </Link>
                 </h4>
                 <p>{formatMoney(item.price)}</p>
-                <div>
-                    <button className="btn btn-outline-primary">Add To Cart</button>
-                </div>
+                <span className="text-muted">{item.user.name}</span>
             </ItemStyles>
         </div>
     );

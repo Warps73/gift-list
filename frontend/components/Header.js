@@ -65,9 +65,6 @@ const Header = () => (
             </Logo>
             <Nav/>
         </div>
-        <div className="sub-bar">
-            <p>Search</p>
-        </div>
     </StyledHeader>
 );
 
