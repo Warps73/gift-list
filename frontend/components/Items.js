@@ -1,10 +1,13 @@
-import React, {Component} from 'react';
+import React, {Component, Fragment} from 'react';
 import {Query} from 'react-apollo';
 import gql from 'graphql-tag';
 import Item from './Item';
 import Pagination from "./Pagination";
 import {perPage} from "../config";
 import Loader from 'react-loader-spinner'
+import Grid from '@material-ui/core/Grid';
+import {Box} from "@material-ui/core";
+
 
 const ALL_ITEMS_QUERY = gql`
     query ALL_ITEMS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
@@ -27,7 +30,7 @@ const ALL_ITEMS_QUERY = gql`
 class Items extends Component {
     render() {
         return (
-            <div className="text-center">
+            <Fragment>
                 <Query
                     query={ALL_ITEMS_QUERY}
                     variables={{
@@ -35,20 +38,30 @@ class Items extends Component {
                     }}>
                     {({data, error, loading}) => {
                         if (loading) return (
-                            <Loader
-                                type="Circles"
-                                color="#ba00ff"
-                                height={500}
-                                width={100}
-                            />);
+                            <Box display='flex' justifyContent="center">
+                                <Loader
+                                    type="Circles"
+                                    color="#ba00ff"
+                                    height={500}
+                                    width={100}
+                                />
+                            </Box>);
                         if (error) return <p>Error: {error.message}</p>;
                         return (
-                            <div className='row'>{data.items.map(item => <Item item={item} key={item.id}/>)}</div>
+                            <Grid container
+                                  justify="flex-start"
+                                  alignItems="center"
+                                  spacing={2}>
+                                {data.items.map(item =>
+                                    <Item item={item} key={item.id}/>)}
+                            </Grid>
                         );
                     }}
                 </Query>
-                <Pagination page={this.props.page}/>
-            </div>
+                <Box display='flex' justifyContent="center">
+                    <Pagination page={this.props.page}/>
+                </Box>
+            </Fragment>
         );
     }
 }

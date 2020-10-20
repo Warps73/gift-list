@@ -1,59 +1,83 @@
-import React from "react";
-import {slide as Menu} from "react-burger-menu";
-import NavStyles from "../styles/NavStyles";
-import Link from "next/link";
-import Signout from "../Signout";
-import User from "../User";
+import React, {Fragment} from 'react';
+import clsx from 'clsx';
+import {makeStyles} from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import List from '@material-ui/core/List';
+import Divider from '@material-ui/core/Divider';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemIcon from '@material-ui/core/ListItemIcon';
+import ListItemText from '@material-ui/core/ListItemText';
+import AppsIcon from '@material-ui/icons/Apps';
+import IconButton from "@material-ui/core/IconButton";
+import MenuIcon from "@material-ui/icons/Menu";
 
+const useStyles = makeStyles({
+    list: {
+        width: 250,
+    },
+    fullList: {
+        width: 'auto',
+    },
+});
 
-function SideBar() {
+export default function SideBar() {
+    const classes = useStyles();
+    const [state, setState] = React.useState({
+        top: false,
+        left: false,
+        bottom: false,
+        right: false,
+    });
+
+    const toggleDrawer = (anchor, open) => (event) => {
+        if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
+            return;
+        }
+
+        setState({...state, [anchor]: open});
+    };
+
+    const list = (anchor) => (
+        <div
+            className={clsx(classes.list, {
+                [classes.fullList]: anchor === 'top' || anchor === 'bottom',
+            })}
+            role="presentation"
+            onClick={toggleDrawer(anchor, false)}
+            onKeyDown={toggleDrawer(anchor, false)}
+        >
+            <List>
+                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
+                    <ListItem button key={text}>
+                        <ListItemIcon>
+                            Salut
+                        </ListItemIcon>
+                        <ListItemText primary={text}/>
+                    </ListItem>
+                ))}
+            </List>
+            <Divider/>
+            <List>
+                {['All mail', 'Trash', 'Spam'].map((text, index) => (
+                    <ListItem button key={text}>
+                        <ListItemIcon>
+                            Salut
+                        </ListItemIcon>
+                        <ListItemText primary={text}/>
+                    </ListItem>
+                ))}
+            </List>
+        </div>
+    );
+
     return (
-        // Pass on our props
-        <Menu>
-            <User>
-                {({data}) => {
-                    if (data) {
-                        const {currentUser} = data;
-                        if (currentUser) {
-                            return (
-                                <ul className="list-group">
-                                    <li className="list-group-item">
-                                        <Link href="/items">
-                                            <a>La liste</a>
-                                        </Link>
-                                    </li>
-                                    <li className="list-group-item">
-                                        <Link href="/sell">
-                                            <a>Une envie ?</a>
-                                        </Link>
-                                    </li>
-                                    <li className="list-group-item">
-                                        <Link href="/userItems">
-                                            <a>Ma liste</a>
-                                        </Link>
-                                    </li>
-                                    <li className="list-group-item">
-                                        <Signout/>
-                                    </li>
-                                </ul>
-                            )
-                        } else {
-                            return (
-                                <ul className="list-group">
-                                    <li className="list-group-item">
-                                        <Link href="/signup">
-                                            <a>Signup</a>
-                                        </Link>
-                                    </li>
-                                </ul>
-                            )
-                        }
-                    }
-                    return null
-                }}
-            </User>
-        </Menu>
+        <Fragment key={'left'}>
+            <IconButton color='inherit' onClick={toggleDrawer('left', true)}>
+                <MenuIcon/>
+            </IconButton>
+            <Drawer anchor={'left'} open={state['left']} onClose={toggleDrawer('left', false)}>
+                {list('left')}
+            </Drawer>
+        </Fragment>
     );
 }
-
-export default SideBar;

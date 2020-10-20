@@ -4,7 +4,6 @@ import Page from "../components/Page";
 import {ApolloProvider} from 'react-apollo';
 import withData from "../lib/withData";
 import '../scss/custom.scss';
-import '../scss/app.scss';
 import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
 import 'react-toastify/dist/ReactToastify.css';
 
