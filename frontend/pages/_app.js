@@ -1,36 +1,54 @@
-import React from 'react';
-import App from 'next/app';
-import Page from "../components/Page";
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {ApolloProvider} from 'react-apollo';
+import Head from 'next/head';
+import {ThemeProvider} from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+import theme from '../src/theme';
 import withData from "../lib/withData";
-import '../scss/custom.scss';
-import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
-import 'react-toastify/dist/ReactToastify.css';
+import Page from "../components/Page";
 
-class MyApp extends App {
-    static async getInitialProps({Component, ctx}) {
-        let pageProps = {};
-        if (Component.getInitialProps) {
-            pageProps = await Component.getInitialProps(ctx)
+function MyApp(props) {
+
+    const {Component, apollo, pageProps} = props;
+
+    React.useEffect(() => {
+        // Remove the server-side injected CSS.
+        const jssStyles = document.querySelector('#jss-server-side');
+        if (jssStyles) {
+            jssStyles.parentElement.removeChild(jssStyles);
         }
-        // this exposes the query to the user
-        pageProps.query = ctx.query;
+    }, []);
 
-        return {pageProps};
-    };
-
-    render() {
-        const {Component, apollo, pageProps} = this.props;
-        return (
-            <ApolloProvider client={apollo}>
+    return (
+        <ApolloProvider client={apollo}>
+            <ThemeProvider theme={theme}>
+                {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+                <CssBaseline/>
                 <Page>
                     <Component {...pageProps}/>
                 </Page>
-            </ApolloProvider>
-        )
-    }
+            </ThemeProvider>
+
+        </ApolloProvider>
+    );
 }
 
+MyApp.propTypes = {
+    Component: PropTypes.elementType.isRequired,
+    pageProps: PropTypes.object.isRequired,
+};
+
+MyApp.getInitialProps = async ({Component, ctx}) => {
+    let pageProps = {};
+    if (Component.getInitialProps) {
+        pageProps = await Component.getInitialProps(ctx)
+    }
+    // this exposes the query to the user
+    pageProps.query = ctx.query;
+
+    return {pageProps};
+};
 // Only uncomment this method if you have blocking data requirements for
 // every single page in your application. This disables the ability to
 // perform automatic static optimization, causing every page in your app to
@@ -44,4 +62,3 @@ class MyApp extends App {
 // }
 
 export default withData(MyApp)
-
