@@ -18,6 +18,9 @@ const useStyles = makeStyles({
     fullList: {
         width: 'auto',
     },
+    button: {
+        fontSize: '3rem',
+    }
 });
 
 export default function SideBar() {
@@ -72,8 +75,8 @@ export default function SideBar() {
 
     return (
         <Fragment key={'left'}>
-            <IconButton color='inherit' onClick={toggleDrawer('left', true)}>
-                <MenuIcon/>
+            <IconButton size='medium' color='inherit' onClick={toggleDrawer('left', true)}>
+                <MenuIcon className={classes.button}/>
             </IconButton>
             <Drawer anchor={'left'} open={state['left']} onClose={toggleDrawer('left', false)}>
                 {list('left')}
