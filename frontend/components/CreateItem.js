@@ -8,6 +8,11 @@ import Error from './ErrorMessage';
 import {useForm} from 'react-hook-form'
 import {ALL_ITEMS_QUERY} from "./Items";
 import {PAGINATION_QUERY} from "./Pagination";
+import TextField from "@material-ui/core/TextField";
+import {Button} from "@material-ui/core";
+import withStyles from "@material-ui/core/styles/withStyles";
+import SubmitButton from "./Material/SubmitButton";
+import {makeStyles} from "@material-ui/core/styles";
 
 const CREATE_ITEM_MUTATION = gql`
     mutation CREATE_ITEM_MUTATION(
@@ -28,7 +33,17 @@ const CREATE_ITEM_MUTATION = gql`
         }
     }
 `;
+
+const useStyles = makeStyles((theme) => ({
+    fieldset: {
+        '& div, button input': {
+            marginBottom: theme.spacing(0.5)
+        },
+    }
+}));
+
 const CreateItem = () => {
+    const classes = useStyles();
     const [state, setState] = useState({});
     const [imgPreview, setImgPreview] = useState(undefined);
     const [files, setFiles] = useState(undefined);
@@ -65,9 +80,6 @@ const CreateItem = () => {
 
     }
 
-    const {register, handleSubmit, watch, errors} = useForm();
-
-
     return (
         <Mutation
             mutation={CREATE_ITEM_MUTATION}
@@ -77,17 +89,18 @@ const CreateItem = () => {
             {(createItem, {error}) => (
                 <Fragment>
                     <h2>I wish... {title && `un(e) ${title}`}</h2>
-                    <Form
-                        onSubmit={handleSubmit(async ({title, reference, price, ...data}) => {
-
+                    <form
+                        onSubmit={async (event) => {
+                            event.preventDefault();
+                            console.log('submit')
                             setLoading(true);
                             const file = await uploadFile(files);
                             setState({
-                                    title: title,
-                                    reference: reference,
-                                    price: parseInt(price),
-                                    image: file.secure_url,
-                                    largeImage: file.eager[0].secure_url
+                                    title: 'toto',
+                                    reference: 'tata',
+                                    price: parseInt(2000),
+                                    image: 'url',
+                                    largeImage: 'url'
                                 }
                             );
                             const res = await createItem();
@@ -99,71 +112,59 @@ const CreateItem = () => {
                                 pathname: '/item',
                                 query: {id: res.data.createItem.id},
                             });
-                        })}
+                        }}
 
                     >
                         <Error error={error}/>
-                        <fieldset disabled={loading} aria-busy={loading}>
+                        <fieldset className={classes.fieldset} style={{border: 'none'}} disabled={loading}
+                                  aria-busy={loading}>
+                            <input
+                                style={{display: 'none'}}
+                                type="file"
+                                id="file"
+                                name="file"
+                                placeholder="Upload an image"
+                                onChange={handleChangeFile}
+                            />
                             <label htmlFor="file">
-                                Avec une image c'est plus facile pour les autres
-                                <input
-                                    type="file"
-                                    id="file"
-                                    name="file"
-                                    placeholder="Upload an image"
-                                    onChange={handleChangeFile}
-                                    ref={register({required: true})}
-                                />
-                                {errors.title && <span>Il faut une image...</span>}
+                                <Button variant="outlined" component="span">
+                                    Ajouter une image
+                                </Button>
                             </label>
                             {imgPreview &&
                             <img style={{maxHeight: "200px", width: "auto"}} src={imgPreview} alt="img"/>}
-                            <label htmlFor="title">
-                                Son petit nom
-                                <input
-                                    type="text"
-                                    id="title"
-                                    name="title"
-                                    placeholder="Title"
-                                    onChange={handleChange}
-                                    ref={register({required: true})}
-                                />
-                                {errors.title && <span>OH! Et le nom du cadeau</span>}
-                            </label>
-
-                            <label htmlFor="price">
-                                En oui... Tout à un prix
-                                <input
-                                    type="number"
-                                    id="price"
-                                    name="price"
-                                    placeholder="Price"
-                                    ref={register({
-                                        required: true,
-                                        pattern: /[0-9]/
-                                    })}
-                                />
-                                {errors.price?.type === "required" &&
-                                <span>C'est gratuit?</span>}
-                                {errors.price?.type === "pattern" &&
-                                <span>C'est un prix ça?</span>}
-
-                            </label>
-
-                            <label htmlFor="reference">
-                                Avec le réf, pas d'erreur possible!
-                                <input
-                                    type="text"
-                                    id="reference"
-                                    name="reference"
-                                    placeholder="Reference du produit"
-                                    ref={register({required: true})}
-                                />
-                                {errors.reference && <span>Si tu veux l'avoir, donne la référence...!</span>}
-                            </label>
-                            <button type="submit">Enregistrer</button>
+                            <TextField
+                                required
+                                fullWidth
+                                label="Nom"
+                                id="title"
+                                name="title"
+                                variant="outlined"
+                                placeholder="Nom"
+                                onChange={handleChange}
+                            />
+                            <TextField
+                                required
+                                fullWidth
+                                label="price"
+                                type="number"
+                                id="price"
+                                name="price"
+                                variant="outlined"
+                                placeholder="Price"
+                            />
+                            <TextField
+                                fullWidth
+                                label="Référence"
+                                id="reference"
+                                name="reference"
+                                placeholder="Reference"
+                                variant="outlined"
+                                onChange={handleChange}
+                            />
+                            <SubmitButton text='Enregistrer' color="success" variant="outlined"/>
                         </fieldset>
-                    </Form>
+                    </form>
                 </Fragment>
             )}
         </Mutation>
