@@ -3,34 +3,43 @@ import {makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import SideBar from "./sidebar/SideBar";
-import Collapse from "@material-ui/core/Collapse";
 import DesktopNav from "./navbar/DesktopNav";
 import {Hidden} from "@material-ui/core";
+import NProgress from 'nprogress';
+import Router from 'next/router';
 import Link from "next/link";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
+
+Router.onRouteChangeStart = () => {
+    NProgress.start();
+};
+Router.onRouteChangeComplete = () => {
+    NProgress.done();
+};
+
+Router.onRouteChangeError = () => {
+    NProgress.done();
+};
 
 const useStyles = makeStyles((theme) => ({
     title: {
         fontFamily: 'Acme',
     },
     link: {
-        color: 'inherit'
+        color: 'black'
     },
     nav: {
         justifyContent: 'space-between',
+    },
+    bg: {
+        backgroundColor: 'white'
     }
 }));
 
-export default function ButtonAppBar() {
+export default function Header() {
     const classes = useStyles();
-
     return (
-        <AppBar className={classes.container} position="sticky">
+        <AppBar className={classes.bg} position="sticky">
             <Toolbar className={classes.nav}>
                 <Hidden smUp>
                     <SideBar/>

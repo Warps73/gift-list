@@ -1,8 +1,6 @@
 import React, {Fragment} from 'react';
 import User, {CURRENT_USER_QUERY} from "../User";
-import NavStyles from "../styles/NavStyles";
 import Link from "next/link";
-import Signout from "../Signout";
 import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
 import Menu from "@material-ui/core/Menu";
@@ -10,18 +8,22 @@ import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
 import gql from "graphql-tag";
 import {AccountCircle} from "@material-ui/icons";
-import {Mutation} from "react-apollo";
 import {useMutation} from "@apollo/react-hooks";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles((theme) => ({
     link: {
         fontSize: '2rem',
-        color: 'inherit',
-        marginRight: theme.spacing(2),
+        color: 'black',
     },
     linkContainer: {
         display: 'flex',
-        justifyContent: 'between'
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    buttonUser: {
+        color: 'black',
+        fontSize: '3rem',
     }
 }));
 
@@ -49,7 +51,7 @@ const DesktopNav = () => {
     const handleProfileMenuOpen = (event) => {
         setAnchorEl(event.currentTarget);
     };
-    const menuId = 'primary-search-account-menu';
+    const menuId = 'nav_menu';
 
 
     const [signout] = useMutation(SIGN_OUT_MUTATION, {refetchQueries: [{query: CURRENT_USER_QUERY}]});
@@ -80,28 +82,33 @@ const DesktopNav = () => {
                     if (currentUser) {
                         return (
                             <div className={classes.linkContainer}>
-                                <Typography variant='h6'>
+                                <Button>
                                     <Link href="/items">
                                         <a className={classes.link}>Liste</a>
                                     </Link>
+                                </Button>
+                                <Button>
                                     <Link href="/sell">
                                         <a className={classes.link}>Une Envie</a>
                                     </Link>
+                                </Button>
+                                <Button>
                                     <Link href="/userItems">
                                         <a className={classes.link}>Ma Liste</a>
                                     </Link>
-                                    <IconButton
-                                        edge="end"
-                                        aria-label="account of current user"
-                                        aria-controls={menuId}
-                                        aria-haspopup="true"
-                                        onClick={handleProfileMenuOpen}
-                                        color="inherit"
-                                    >
-                                        <AccountCircle/>
-                                    </IconButton>
-                                    {renderMenu}
-                                </Typography>
+                                </Button>
+                                <IconButton
+                                    edge="end"
+                                    aria-label="account of current user"
+                                    aria-controls={menuId}
+                                    aria-haspopup="true"
+                                    variant="contained"
+                                    onClick={handleProfileMenuOpen}
+                                    color="inherit"
+                                >
+                                    <AccountCircle className={classes.buttonUser}/>
+                                </IconButton>
+                                {renderMenu}
                             </div>
                         )
                     } else {
