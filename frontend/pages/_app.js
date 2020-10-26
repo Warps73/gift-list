@@ -6,6 +6,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import theme from '../src/theme';
 import withData from "../lib/withData";
 import Page from "../components/Page";
+import 'react-loader-spinner/dist/loader/css/react-spinner-loader.css'
+import 'react-toastify/dist/ReactToastify.css';
 
 function MyApp(props) {
 
