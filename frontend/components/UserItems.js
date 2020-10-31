@@ -32,7 +32,6 @@ const UserItems = function (props) {
                    variables={{
                        skip: props.page * perPage - perPage,
                    }}
-                   fetchPolicy="network-only"
             >
                 {({data, error, loading}) => {
                     if (loading) return (
@@ -59,4 +58,5 @@ const UserItems = function (props) {
         </Fragment>
     );
 }
+export {USER_ITEMS_QUERY}
 export default UserItems;

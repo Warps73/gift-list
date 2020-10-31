@@ -1,15 +1,15 @@
 import React, {Fragment} from 'react';
 import User, {CURRENT_USER_QUERY} from "../User";
 import Link from "next/link";
-import Typography from "@material-ui/core/Typography";
 import {makeStyles} from "@material-ui/core/styles";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import IconButton from "@material-ui/core/IconButton";
 import gql from "graphql-tag";
 import {AccountCircle} from "@material-ui/icons";
-import {useMutation} from "@apollo/react-hooks";
+import {useApolloClient, useMutation} from "@apollo/react-hooks";
 import Button from "@material-ui/core/Button";
+import Router from "next/router";
 
 const useStyles = makeStyles((theme) => ({
     link: {
@@ -35,8 +35,7 @@ const SIGN_OUT_MUTATION = gql`
     }
 `;
 
-const DesktopNav = () => {
-
+const DesktopNav = (props) => {
     const classes = useStyles();
 
 
@@ -54,11 +53,11 @@ const DesktopNav = () => {
     const menuId = 'nav_menu';
 
 
-    const [signout] = useMutation(SIGN_OUT_MUTATION, {refetchQueries: [{query: CURRENT_USER_QUERY}]});
+    const [signout] = useMutation(SIGN_OUT_MUTATION);
 
-    const logout = () => {
-        signout();
-        handleMenuClose();
+    const logout = async () => {
+        await signout();
+        window.location = '/';
     }
     const renderMenu = (
         <Menu

@@ -144,7 +144,6 @@ const CreateItem = () => {
                             if (error) {
                                 setLoading(false);
                             }
-                            // todo change them to the single item page
                             await Router.push({
                                 pathname: '/',
                             });
