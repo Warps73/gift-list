@@ -19,7 +19,14 @@ const PleaseSignIn = (props) => {
                             </div>
                         );
                     }
-                    return props.children
+                    return React.Children.map(props.children, child => {
+                        // checking isValidElement is the safe way and avoids a typescript error too
+                        const props = {data};
+                        if (React.isValidElement(child)) {
+                            return React.cloneElement(child, props);
+                        }
+                        return child;
+                    })
                 }}
             </Query>
         </div>
