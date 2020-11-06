@@ -18,6 +18,7 @@ import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
 import ShareIcon from '@material-ui/icons/Share';
 import LaunchIcon from '@material-ui/icons/Launch';
+import DeleteItem from "./DeleteItem";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -60,6 +61,7 @@ export default function Item(props) {
                     <IconButton onClick={() => window.open('https://google.com', '_blank')} aria-label="share">
                         <ShareIcon/>
                     </IconButton>
+                    {props.allowDelete && <DeleteItem item={item}/>}
                 </CardActions>
             </Card>
         </Grid>

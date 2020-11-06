@@ -48,13 +48,11 @@ const Mutations = {
         // 2. Check if they own that item, or have the permissions
         const ownsItem = item.user.id === ctx.request.userId;
         const hasPermissions = hasPermission(ctx.request.user, ['ADMIN']);
-        if (!ownsItem || !hasPermissions) {
-
-            throw new Error('403 Forbidden')
-
+        if (ownsItem || hasPermissions) {
+            return ctx.db.mutation.deleteItem({where}, info);
         }
-        // 3. Delete it!
-        return ctx.db.mutation.deleteItem({where}, info);
+        
+        throw new Error('403 Forbidden')
     },
 
     async signup(parent, args, ctx, info) {

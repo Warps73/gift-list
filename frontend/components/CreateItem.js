@@ -2,15 +2,12 @@ import React, {Fragment, useState} from 'react';
 import {Mutation} from 'react-apollo';
 import gql from 'graphql-tag';
 import Router from 'next/router';
-import Form from './styles/Form';
-import formatMoney from '../lib/formatMoney';
 import Error from './ErrorMessage';
-import {Controller, useForm} from 'react-hook-form'
+import {useForm} from 'react-hook-form'
 import {ALL_ITEMS_QUERY} from "./Items";
 import {PAGINATION_QUERY} from "./Pagination";
 import TextField from "@material-ui/core/TextField";
 import {Button} from "@material-ui/core";
-import withStyles from "@material-ui/core/styles/withStyles";
 import SubmitButton from "./Material/SubmitButton";
 import {makeStyles} from "@material-ui/core/styles";
 import FormHelperText from "@material-ui/core/FormHelperText";
@@ -124,6 +121,7 @@ const CreateItem = () => {
             mutation={CREATE_ITEM_MUTATION}
             variables={state}
             refetchQueries={[{query: ALL_ITEMS_QUERY}]}
+            awaitRefetchQueries={true}
         >
             {(createItem, {error}) => (
                 <Fragment>
@@ -163,7 +161,7 @@ const CreateItem = () => {
                                 ref={register({required: true})}
                             />
                             <label htmlFor="file">
-                                <Button style={{marginBottom: '1em'}} variant="outlined">
+                                <Button style={{marginBottom: '1em'}} component="span" variant="outlined">
                                     Ajouter une image
                                 </Button>
                             </label>

@@ -28,6 +28,11 @@ const ALL_ITEMS_QUERY = gql`
 `;
 
 class Items extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {items: null};
+    }
+
     render() {
         return (
             <Fragment>
@@ -47,20 +52,27 @@ class Items extends Component {
                                 />
                             </Box>);
                         if (error) return <p>Error: {error.message}</p>;
+                        this.state.items = data.items
+
+                        if (this.props.user) {
+                            const currentUser = this.props.data.currentUser
+                            this.state.items = data.items.filter(item => item.user.id === currentUser.id)
+                        }
                         return (
                             <Grid container
                                   justify="flex-start"
                                   alignItems="center"
                                   spacing={2}>
-                                {data.items.map(item =>
-                                    <Item item={item} key={item.id}/>)}
+                                {this.state.items.map(item =>
+                                    <Item allowDelete={this.props.user} item={item} key={item.id}/>)}
                             </Grid>
                         );
                     }}
                 </Query>
-                <Box display='flex' justifyContent="center">
+                {this.state.items && <Box display='flex' justifyContent="center">
                     <Pagination page={this.props.page}/>
-                </Box>
+                </Box>}
+
             </Fragment>
         );
     }
