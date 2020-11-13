@@ -58,6 +58,13 @@ class Items extends Component {
                             const currentUser = this.props.data.currentUser
                             this.state.items = data.items.filter(item => item.user.id === currentUser.id)
                         }
+                        if (!this.state.items.length) {
+                            return (
+                                <div>
+                                    Aucun résultat
+                                </div>
+                            )
+                        }
                         return (
                             <Grid container
                                   justify="flex-start"
