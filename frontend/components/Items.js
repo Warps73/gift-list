@@ -10,8 +10,8 @@ import {Box} from "@material-ui/core";
 
 
 const ALL_ITEMS_QUERY = gql`
-    query ALL_ITEMS_QUERY($skip: Int = 0, $first: Int = ${perPage}) {
-        items(first: $first, skip: $skip, orderBy: createdAt_ASC) {
+    query ALL_ITEMS_QUERY($skip: Int = 0, $first: Int = ${perPage}, $id : ID) {
+        items(first: $first, skip: $skip, orderBy: createdAt_ASC, where: {user: {id: $id}}) {
             id
             title
             price
@@ -34,13 +34,16 @@ class Items extends Component {
     }
 
     render() {
+        const variables = {skip: this.props.page * perPage - perPage};
+        if (this.props.user) {
+            variables.id = this.props.data.currentUser.id;
+        }
         return (
             <Fragment>
                 <Query
                     query={ALL_ITEMS_QUERY}
-                    variables={{
-                        skip: this.props.page * perPage - perPage,
-                    }}>
+                    variables={variables}
+                    fetchPolicy={"no-cache"}>
                     {({data, error, loading}) => {
                         if (loading) return (
                             <Box display='flex' justifyContent="center">

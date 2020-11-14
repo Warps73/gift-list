@@ -121,7 +121,6 @@ const CreateItem = () => {
             mutation={CREATE_ITEM_MUTATION}
             variables={state}
             refetchQueries={[{query: ALL_ITEMS_QUERY}]}
-            awaitRefetchQueries={true}
         >
             {(createItem, {error}) => (
                 <Fragment>
