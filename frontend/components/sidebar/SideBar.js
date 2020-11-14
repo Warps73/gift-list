@@ -10,6 +10,7 @@ import ListItemText from '@material-ui/core/ListItemText';
 import AppsIcon from '@material-ui/icons/Apps';
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
+import Link from "next/link";
 
 const useStyles = makeStyles({
     list: {
@@ -20,6 +21,10 @@ const useStyles = makeStyles({
     },
     button: {
         fontSize: '3rem',
+    },
+    link: {
+        fontSize: '2rem',
+        color: 'black',
     }
 });
 
@@ -50,32 +55,40 @@ export default function SideBar() {
             onKeyDown={toggleDrawer(anchor, false)}
         >
             <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>
-                            Salut
-                        </ListItemIcon>
-                        <ListItemText primary={text}/>
+                <Link href="/items" passHref>
+                    <ListItem button component="a">
+                        <ListItemText>
+                            <span className={classes.link}>La liste</span>
+                        </ListItemText>
                     </ListItem>
-                ))}
+                </Link>
             </List>
             <Divider/>
             <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>
-                            Salut
-                        </ListItemIcon>
-                        <ListItemText primary={text}/>
+                <Link href="/sell" passHref>
+                    <ListItem button component="a">
+                        <ListItemText>
+                            <span className={classes.link}>Une envie</span>
+                        </ListItemText>
                     </ListItem>
-                ))}
+                </Link>
+            </List>
+            <Divider/>
+            <List>
+                <Link href="/userItems" passHref>
+                    <ListItem button component="a">
+                        <ListItemText>
+                            <span className={classes.link}>Ma Liste</span>
+                        </ListItemText>
+                    </ListItem>
+                </Link>
             </List>
         </div>
     );
 
     return (
         <Fragment key={'left'}>
-            <IconButton size='medium' color='inherit' onClick={toggleDrawer('left', true)}>
+            <IconButton size='medium' color='primary' onClick={toggleDrawer('left', true)}>
                 <MenuIcon className={classes.button}/>
             </IconButton>
             <Drawer anchor={'left'} open={state['left']} onClose={toggleDrawer('left', false)}>
