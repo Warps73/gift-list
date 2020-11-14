@@ -43,7 +43,7 @@ class Items extends Component {
                 <Query
                     query={ALL_ITEMS_QUERY}
                     variables={variables}
-                    fetchPolicy={"no-cache"}>
+                    fetchPolicy={"cache-and-network"}>
                     {({data, error, loading}) => {
                         if (loading) return (
                             <Box display='flex' justifyContent="center">
@@ -57,10 +57,6 @@ class Items extends Component {
                         if (error) return <p>Error: {error.message}</p>;
                         this.state.items = data.items
 
-                        if (this.props.user) {
-                            const currentUser = this.props.data.currentUser
-                            this.state.items = data.items.filter(item => item.user.id === currentUser.id)
-                        }
                         if (!this.state.items.length) {
                             return (
                                 <div>
